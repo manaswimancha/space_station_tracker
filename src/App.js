@@ -1,23 +1,19 @@
-import logo from './logo.svg';
 import './App.css';
+import { useState, useEffect } from 'react';
 
 function App() {
+  const [latitude, setLatitude] = useState("")
+  const [longitude, setLongitude] = useState("")
+  useEffect(() => {
+    fetch("http://api.open-notify.org/iss-now.json").then(a => a.json()).then(b => {
+      setLatitude(b.iss_position.latitude);
+      setLongitude(b.iss_position.longitude);
+    })
+  }, [])
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h2>The space station is currently flying over</h2>
+      <h1>Latitude: {latitude} and Longitude: {longitude}</h1>
     </div>
   );
 }
